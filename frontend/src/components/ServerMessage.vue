@@ -1,4 +1,20 @@
-<script lang="ts">
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+
+let apiMsg = ref('Waiting for response...');
+let messageLoaded = ref(false);
+
+onMounted(() => {
+    fetch('/api/status')
+        .then(response => response.json())
+        .then(data => {
+            apiMsg.value = data.message;
+            messageLoaded.value = true;
+        });
+})
+</script>
+
+<!-- <script lang="ts">
     export default {
         data() {
             return {
@@ -15,7 +31,7 @@
                 });
         }
     }
-</script>
+</script> -->
 
 <template>
   <span :class="{ loaded: messageLoaded }">API status: {{ apiMsg }}</span>
